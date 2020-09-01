@@ -19,15 +19,31 @@ export default function App() {
     });
   };
 
+  const submitHandler = (text) => {
+    if(text.length > 3){
+      setText('');
+      setTodos(prevTodos => {
+        return [
+          { text, key: Math.random().toString() },
+          ...prevTodos
+        ];
+      });
+    } else {
+      Alert.alert('OOPS', 'Todo must be over 3 characters long', [
+        {text: 'Understood', onPress: () => console.log('alert closed') }
+      ]);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.content}>
-        {/* add todo form */}
+        <AddTodo submitHandler = {submitHandler}></AddTodo>
         <View style={styles.list}>
           <FlatList
             data={todos}
-            renderItem={({ item }) => (
+            renderItem={({ item  }) => (
               <TodoItem item={item} pressHandler={pressHandler} />
             )}
           />
